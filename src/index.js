@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { StarWarsContextProvider } from './context/StarWarsContext';
 
 ReactDOM.render(
-  <StarWarsContextProvider>
+  <React.StrictMode>
     <App />
-  </StarWarsContextProvider>,
+  </React.StrictMode>,
   document.getElementById('root'),
 );
