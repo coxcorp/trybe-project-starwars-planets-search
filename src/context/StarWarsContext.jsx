@@ -4,22 +4,31 @@ import PropTypes from 'prop-types';
 export const StarWarsContext = createContext();
 
 export function StarWarsContextProvider({ children }) {
-  const [data, setData] = useState([]);
+  const [data2, setData2] = useState([]);
+  const [filters, setFilters] = useState(
+    {
+      filterByName: '',
+      filterByNumericValues: [],
+    },
+  );
 
   async function fetchAPI() {
     const resolve = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
     const result = await resolve.json();
     const { results } = result;
 
-    setData(results);
+    setData2(results);
   }
 
   useEffect(() => {
     fetchAPI();
   }, []);
 
+  const data = (data2
+    .filter((datum) => datum.name.toLowerCase()
+      .includes(filters.filterByName.toLowerCase())));
   return (
-    <StarWarsContext.Provider value={ { data } }>
+    <StarWarsContext.Provider value={ { data, filters, setFilters } }>
       { children }
     </StarWarsContext.Provider>
   );
