@@ -24,7 +24,7 @@ yarn-error.log*
 
 pwd.txt
 /src/context/StarWarsContext copy.jsx
-/src/context/Filters copy.jsx
+/src/components/Filters copy.jsx
 
 # VSCode repo settings
 .vscode

@@ -5,6 +5,7 @@ export const StarWarsContext = createContext();
 
 export function StarWarsContextProvider({ children }) {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [filters, setFilters] = useState(
     {
       filterByName: '',
@@ -18,6 +19,7 @@ export function StarWarsContextProvider({ children }) {
     const { results } = result;
 
     setData(results);
+    setFilteredData(results);
   }
 
   useEffect(() => {
@@ -25,7 +27,11 @@ export function StarWarsContextProvider({ children }) {
   }, []);
 
   return (
-    <StarWarsContext.Provider value={ { data, setData, filters, setFilters } }>
+    <StarWarsContext.Provider
+      value={
+        { data, setData, filteredData, setFilteredData, filters, setFilters }
+      }
+    >
       { children }
     </StarWarsContext.Provider>
   );
