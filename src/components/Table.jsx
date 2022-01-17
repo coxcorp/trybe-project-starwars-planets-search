@@ -2,9 +2,10 @@ import React, { useContext } from 'react';
 import { StarWarsContext } from '../context/StarWarsContext';
 
 function Table() {
-  const { data } = useContext(StarWarsContext);
+  const { data, filters } = useContext(StarWarsContext);
   if (data.length === 0) return <h1>Carregando...</h1>;
   const tableHeaderKey = Object.keys(data[0]).filter((title) => title !== 'residents');
+
   return (
     <table>
       <thead>
@@ -16,13 +17,15 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {data.map((planet) => (
-          <tr key={ planet.name }>
-            {tableHeaderKey.map((key) => (
-              <td key={ `${planet.name}${key}` }>
-                {planet[key]}
-              </td>))}
-          </tr>))}
+        {data.filter((datum) => filters.filterByName === ''
+        || datum.name.includes(filters.filterByName))
+          .map((planet) => (
+            <tr key={ planet.name }>
+              {tableHeaderKey.map((key) => (
+                <td key={ `${planet.name}${key}` }>
+                  {planet[key]}
+                </td>))}
+            </tr>))}
       </tbody>
     </table>
   );

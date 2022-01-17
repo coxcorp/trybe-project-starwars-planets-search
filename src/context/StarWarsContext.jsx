@@ -1,34 +1,30 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { useEffect, createContext, useState } from 'react';
 import PropTypes from 'prop-types';
+
+const DEFAULT_VALUE = {
+  planets: [],
+};
 
 export const StarWarsContext = createContext();
 
-export function StarWarsContextProvider({ children }) {
-  const [data2, setData2] = useState([]);
-  const [filters, setFilters] = useState(
-    {
-      filterByName: '',
-      filterByNumericValues: [],
-    },
-  );
-
-  async function fetchAPI() {
-    const resolve = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
-    const result = await resolve.json();
-    const { results } = result;
-
-    setData2(results);
-  }
+function StarWarsContextProvider({ children }) {
+  const [planets, setPlanets] = useState(DEFAULT_VALUE);
 
   useEffect(() => {
-    fetchAPI();
+    const fetchData = async () => {
+      const data = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+      const response = await data.json();
+      const newPlanets = response.results;
+      setPlanets(newPlanets.sort((a, b) => a.name.localeCompare(b.name)).map((planet) => {
+        delete planet.residents;
+        return planet;
+      }));
+    };
+    fetchData();
   }, []);
 
-  const data = (data2
-    .filter((datum) => datum.name.toLowerCase()
-      .includes(filters.filterByName.toLowerCase())));
   return (
-    <StarWarsContext.Provider value={ { data, filters, setFilters } }>
+    <StarWarsContext.Provider value={ planets }>
       { children }
     </StarWarsContext.Provider>
   );
@@ -37,3 +33,5 @@ export function StarWarsContextProvider({ children }) {
 StarWarsContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
+export default StarWarsContextProvider;
