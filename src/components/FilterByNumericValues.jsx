@@ -68,7 +68,7 @@ function FilterByNumericValues() {
   }
 
   // if (data.length === 0) return <h1>Carregando...</h1>;
-  const tableHeaderKey = Object.keys(data[0]).filter((title) => title !== 'residents');
+  // const tableHeaderKey = Object.keys(data[0]).filter((title) => title !== 'residents');
   return (
     <>
       <form onSubmit={ handleSubmit }>
@@ -108,7 +108,7 @@ function FilterByNumericValues() {
           </button>
         </label>
       </form>
-      <table>
+      {/* <table>
         <thead>
           <tr>
             {tableHeaderKey.map((key) => (
@@ -126,7 +126,7 @@ function FilterByNumericValues() {
                 </td>))}
             </tr>))}
         </tbody>
-      </table>
+      </table> */}
     </>
   );
 }
