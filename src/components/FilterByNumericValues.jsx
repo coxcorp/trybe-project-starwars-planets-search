@@ -61,7 +61,6 @@ function FilterByNumericValues() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(selectColumn.current.value);
     setFilters({ ...filters,
       filterByNumericValues:
       [
@@ -72,7 +71,6 @@ function FilterByNumericValues() {
   }
 
   function handleChange({ target }) {
-    console.log(target.value);
     setFilterState(
       { ...filterState, [target.name]: (target.value) },
     );

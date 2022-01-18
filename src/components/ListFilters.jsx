@@ -10,7 +10,6 @@ function ListFilters() {
   function deleteFilter({ target }) {
     const localFilter = filters.filterByNumericValues
       .filter((filter) => filter.column !== target.value);
-    console.log(localFilter);
     setFilters({ ...filters,
       filterByNumericValues: localFilter,
     });
@@ -21,10 +20,9 @@ function ListFilters() {
     filters.filterByNumericValues.map((filter) => (
       <div
         key={ filter.column }
+        data-testid="filter"
       >
-        <span
-          data-testid="filter"
-        >
+        <span>
           {`${filter.column} - ${filter.comparison} - ${filter.quantity}` }
         </span>
     &nbsp;

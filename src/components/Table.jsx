@@ -13,7 +13,6 @@ function Table() {
           .filter((datum) => datum.name.includes(filters.filterByName)),
       );
     }
-    console.log('loop');
   }, [filteredData, filters.filterByName]);
 
   useEffect(() => {
