@@ -1,5 +1,4 @@
-/* eslint-disable keyword-spacing */
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 
 import { StarWarsContext } from '../context/StarWarsContext';
 
@@ -13,7 +12,7 @@ function FilterByNumericValues() {
     },
   );
 
-  function numericFilters() {
+  const numericFilters = useCallback(() => {
     const tamanho = filters.filterByNumericValues.length;
     const individual = filters.filterByNumericValues;
     for (let index = 0; index < tamanho; index += 1) {
@@ -32,7 +31,7 @@ function FilterByNumericValues() {
         setFilteredData(numFilter);
       }
     }
-  }
+  }, [data, filters.filterByNumericValues, setFilteredData]);
 
   useEffect(() => {
     numericFilters();
@@ -74,8 +73,6 @@ function FilterByNumericValues() {
     );
   }
 
-  // if (data.length === 0) return <h1>Carregando...</h1>;
-  // const tableHeaderKey = Object.keys(data[0]).filter((title) => title !== 'residents');
   return (
     <form onSubmit={ handleSubmit }>
       <label htmlFor="filterByNumericValues">

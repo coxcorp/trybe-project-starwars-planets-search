@@ -8,8 +8,8 @@ function Table() {
     filteredData[0],
   ).filter((title) => title !== 'residents');
 
-  const teste = filteredData.filter((datum) => datum.name.includes(filters.filterByName));
-  console.log(teste, filters.filterByName);
+  const newList = filteredData
+    .filter((datum) => datum.name.includes(filters.filterByName));
   return (
     <table>
       <thead>
@@ -21,7 +21,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {teste.map((planet) => (
+        {newList.map((planet) => (
           <tr key={ planet.name }>
             {tableHeaderKey.map((key) => (
               <td key={ `${planet.name}${key}` }>
