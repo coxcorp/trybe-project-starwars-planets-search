@@ -1,15 +1,32 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StarWarsContext } from '../context/StarWarsContext';
 
 function Table() {
   const { filteredData, filters } = useContext(StarWarsContext);
-  if (filteredData.length === 0) return <h1>Carregando...</h1>;
-  const tableHeaderKey = Object.keys(
-    filteredData[0],
-  ).filter((title) => title !== 'residents');
+  const [newList, setNewList] = useState([]);
+  const [tableHeaderKey, setTableHeaderKey] = useState([]);
 
-  const newList = filteredData
-    .filter((datum) => datum.name.includes(filters.filterByName));
+  useEffect(() => {
+    if (filteredData.length > 0) {
+      setNewList(
+        filteredData
+          .filter((datum) => datum.name.includes(filters.filterByName)),
+      );
+    }
+    console.log('loop');
+  }, [filteredData, filters.filterByName]);
+
+  useEffect(() => {
+    if (filteredData.length > 0) {
+      setTableHeaderKey(
+        Object.keys(
+          filteredData[0],
+        ).filter((title) => title !== 'residents'),
+      );
+    }
+  }, [filteredData, filters.filterByNumberValue]);
+
+  if (filteredData.length === 0) return <h1>Carregando...</h1>;
   return (
     <table>
       <thead>
