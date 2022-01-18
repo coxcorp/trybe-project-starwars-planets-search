@@ -1,9 +1,10 @@
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, { useState, useContext, useEffect, useCallback, useRef } from 'react';
 
 import { StarWarsContext } from '../context/StarWarsContext';
 
 function FilterByNumericValues() {
   const { data, setFilteredData, filters, setFilters } = useContext(StarWarsContext);
+  const selectColumn = useRef();
   const [filterState, setFilterState] = useState(
     {
       column: 'population',
@@ -50,6 +51,7 @@ function FilterByNumericValues() {
     ].filter((column) => (!activeFilters.includes(column))).map((option) => (
       <option
         key={ option }
+        value={ option }
       >
         { option }
 
@@ -59,15 +61,18 @@ function FilterByNumericValues() {
 
   function handleSubmit(event) {
     event.preventDefault();
+    console.log(selectColumn.current.value);
     setFilters({ ...filters,
       filterByNumericValues:
       [
-        ...filters.filterByNumericValues, filterState,
+        ...filters.filterByNumericValues,
+        { ...filterState, column: selectColumn.current.value },
       ] });
     numericFilters();
   }
 
   function handleChange({ target }) {
+    console.log(target.value);
     setFilterState(
       { ...filterState, [target.name]: (target.value) },
     );
@@ -80,7 +85,7 @@ function FilterByNumericValues() {
         <select
           data-testid="column-filter"
           name="column"
-          value={ filterState.column }
+          ref={ selectColumn }
           onChange={ handleChange }
         >
           { createColumns() }
