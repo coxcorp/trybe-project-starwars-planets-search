@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { StarWarsContext } from '../context/StarWarsContext';
 
 function Table() {
-  const { filteredData, filters } = useContext(StarWarsContext);
-  const [newList, setNewList] = useState([]);
+  const { filteredData, filters, newList, setNewList } = useContext(StarWarsContext);
   const [tableHeaderKey, setTableHeaderKey] = useState([]);
 
   useEffect(() => {
@@ -13,7 +12,7 @@ function Table() {
           .filter((datum) => datum.name.includes(filters.filterByName)),
       );
     }
-  }, [filteredData, filters.filterByName]);
+  }, [filteredData, filters.filterByName, setNewList]);
 
   useEffect(() => {
     if (filteredData.length > 0) {
@@ -24,6 +23,25 @@ function Table() {
       );
     }
   }, [filteredData, filters.filterByNumberValue]);
+
+  function createTD(planet, key) {
+    if (key === 'name') {
+      return (
+        <td
+          data-testid="planet-name"
+          key={ `${planet.name}${key}` }
+        >
+          {planet[key]}
+        </td>
+      );
+    }
+    return (
+      <td
+        key={ `${planet.name}${key}` }
+      >
+        {planet[key]}
+      </td>);
+  }
 
   if (filteredData.length === 0) return <h1>Carregando...</h1>;
   return (
@@ -40,9 +58,8 @@ function Table() {
         {newList.map((planet) => (
           <tr key={ planet.name }>
             {tableHeaderKey.map((key) => (
-              <td key={ `${planet.name}${key}` }>
-                {planet[key]}
-              </td>))}
+              createTD(planet, key)
+            ))}
           </tr>))}
       </tbody>
     </table>

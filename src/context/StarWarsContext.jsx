@@ -6,6 +6,7 @@ export const StarWarsContext = createContext();
 export function StarWarsContextProvider({ children }) {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [newList, setNewList] = useState([]);
   const [filters, setFilters] = useState(
     {
       filterByName: '',
@@ -13,13 +14,27 @@ export function StarWarsContextProvider({ children }) {
     },
   );
 
+  // const [order, setOrder] = useState({
+  //   column: 'population',
+  //   sort: 'asc',
+  // });
+  const numberOne = 1;
+
   async function fetchAPI() {
     const resolve = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
     const result = await resolve.json();
     const { results } = result;
-
-    setData(results);
-    setFilteredData(results);
+    const sortResults = results.sort((a, b) => {
+      if (a.name > b.name) {
+        return numberOne;
+      }
+      if (a.name < b.name) {
+        return -numberOne;
+      }
+      return 0;
+    });
+    setData(sortResults);
+    setFilteredData(sortResults);
   }
 
   useEffect(() => {
@@ -29,7 +44,14 @@ export function StarWarsContextProvider({ children }) {
   return (
     <StarWarsContext.Provider
       value={
-        { data, setData, filteredData, setFilteredData, filters, setFilters }
+        { data,
+          setData,
+          filteredData,
+          setFilteredData,
+          filters,
+          setFilters,
+          newList,
+          setNewList }
       }
     >
       { children }
