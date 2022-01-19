@@ -14,10 +14,6 @@ export function StarWarsContextProvider({ children }) {
     },
   );
 
-  // const [order, setOrder] = useState({
-  //   column: 'population',
-  //   sort: 'asc',
-  // });
   const numberOne = 1;
 
   async function fetchAPI() {
